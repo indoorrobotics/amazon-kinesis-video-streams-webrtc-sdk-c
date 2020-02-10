@@ -95,18 +95,28 @@ STATUS resendPacketOnNack(PRtcpPacket pRtcpPacket, PKvsPeerConnection pKvsPeerCo
         CHK(retStatus == STATUS_SUCCESS, retStatus);
 
         if (pRtpPacket != NULL) {
-            CHK_STATUS(constructRetransmitRtpPacketFromBytes(pRtpPacket->pRawPacket, pRtpPacket->rawPacketLength,
-                    pSenderTranceiver->sender.rtxSequenceNumber, pSenderTranceiver->sender.rtxPayloadType, pSenderTranceiver->sender.rtxSsrc, &pRtxRtpPacket));
-            pSenderTranceiver->sender.rtxSequenceNumber++;
-            // resendPacket
-            retStatus = writeRtpPacket(pKvsPeerConnection, pRtxRtpPacket);
-            if (STATUS_SUCCEEDED(retStatus)) {
-                DLOGV("Resent packet original seq %lu rtx seq %lu succeeded", pRtpPacket->header.sequenceNumber,
-                        pRtxRtpPacket->header.sequenceNumber);
+            // RtpSender does not have a distinct PayloadType for retransmissions, just resend original packet
+            if (pSenderTranceiver->sender.rtxPayloadType == pSenderTranceiver->sender.payloadType) {
+                retStatus = iceAgentSendPacket(pKvsPeerConnection->pIceAgent, pRtpPacket->pRawPacket, pRtpPacket->rawPacketLength);
+                if (STATUS_SUCCEEDED(retStatus)) {
+                    DLOGV("Resent packet original seq %lu rtx ", pRtpPacket->header.sequenceNumber);
+                } else {
+                    DLOGW("Resent packet %lu failed with orignal seq %lu status %lu", pRtpPacket->header.sequenceNumber, retStatus);
+                }
             } else {
-                DLOGW("Resent packet %lu failed with orignal seq %lu new seq %lu status %lu",
-                        pRtpPacket->header.sequenceNumber, pRtxRtpPacket->header.sequenceNumber, retStatus);
+                CHK_STATUS(constructRetransmitRtpPacketFromBytes(pRtpPacket->pRawPacket, pRtpPacket->rawPacketLength,
+                            pSenderTranceiver->sender.rtxSequenceNumber, pSenderTranceiver->sender.rtxPayloadType, pSenderTranceiver->sender.rtxSsrc, &pRtxRtpPacket));
+                pSenderTranceiver->sender.rtxSequenceNumber++;
+                retStatus = writeRtpPacket(pKvsPeerConnection, pRtxRtpPacket);
+                if (STATUS_SUCCEEDED(retStatus)) {
+                    DLOGV("Resent packet original seq %lu rtx seq %lu succeeded", pRtpPacket->header.sequenceNumber,
+                            pRtxRtpPacket->header.sequenceNumber);
+                } else {
+                    DLOGW("Resent packet %lu failed with orignal seq %lu new seq %lu status %lu",
+                            pRtpPacket->header.sequenceNumber, pRtxRtpPacket->header.sequenceNumber, retStatus);
+                }
             }
+
             // putBackPacketToRollingBuffer
             retStatus = rollingBufferInsertData(pSenderTranceiver->sender.packetBuffer->pRollingBuffer, pRetransmitter->sequenceNumberList[index], item);
             CHK(retStatus == STATUS_SUCCESS || retStatus == STATUS_ROLLING_BUFFER_NOT_IN_RANGE, retStatus);
