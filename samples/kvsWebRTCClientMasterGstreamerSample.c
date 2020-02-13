@@ -169,7 +169,7 @@ PVOID sendGstreamerAudioVideo(PVOID args)
     {
         case SAMPLE_STREAMING_VIDEO_ONLY:            
             printf("Pipeline created\n");
-            char pipe[] = "v4l2src device=/dev/videoX ! queue ! h264parse ! appsink sync=TRUE emit-signals=TRUE name=appsink-video";
+            char pipe[] = "v4l2src device=/dev/videoX ! queue ! h264parse ! video/x-h264,width=1280,height=720,framerate=15/1 ! appsink sync=TRUE emit-signals=TRUE name=appsink-video";
             pipe[25] = mVideoPort; 
             pipeline = gst_parse_launch(pipe, &error);
 
