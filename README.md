@@ -26,14 +26,14 @@
   - Opus
 * Developer Controlled Media Pipeline
   - Raw Media for Input/Output
-  - [API emits feedback for QoS (bitrate suggestions)](https://github.com/awslabs/amazon-kinesis-video-streams-webrtc-sdk-c/issues/114)
+  - [API emits feedback for QoS (bitrate suggestions)](https://github.com/indoorrobotics/amazon-kinesis-video-streams-webrtc-sdk-c/issues/114)
 * DataChannels
 * NACKs
 * STUN/TURN Support
-* IPv4/[IPv6 TODO](https://github.com/awslabs/amazon-kinesis-video-streams-webrtc-sdk-c/issues/115)
+* IPv4/[IPv6 TODO](https://github.com/indoorrobotics/amazon-kinesis-video-streams-webrtc-sdk-c/issues/115)
 * Signaling Client Included
   - KVS Provides STUN/TURN and Signaling Backend
-  - Connect with [Android](https://github.com/awslabs/amazon-kinesis-video-streams-webrtc-sdk-android)/[iOS](https://github.com/awslabs/amazon-kinesis-video-streams-webrtc-sdk-ios)/[Web](https://github.com/awslabs/amazon-kinesis-video-streams-webrtc-sdk-js) using pre-made samples
+  - Connect with [Android](https://github.com/indoorrobotics/amazon-kinesis-video-streams-webrtc-sdk-android)/[iOS](https://github.com/indoorrobotics/amazon-kinesis-video-streams-webrtc-sdk-ios)/[Web](https://github.com/indoorrobotics/amazon-kinesis-video-streams-webrtc-sdk-js) using pre-made samples
 * Portable
   - Tested on Linux/MacOS
   - Tested on x64, ARMv5
@@ -46,7 +46,7 @@
 ### Download
 To download run the following command:
 
-`git clone --recursive https://github.com/awslabs/amazon-kinesis-video-streams-webrtc-sdk-c.git`
+`git clone --recursive https://github.com/indoorrobotics/amazon-kinesis-video-streams-webrtc-sdk-c.git`
 
 You will also need to install `pkg-config` and `CMake` and a build enviroment
 
