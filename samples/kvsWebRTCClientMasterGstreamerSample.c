@@ -455,6 +455,7 @@ INT32 main(INT32 argc, CHAR *argv[])
                                                                     &pClientCallbacks));
 
         CHK_STATUS(createKinesisVideoClient(pDeviceInfo, pClientCallbacks, &clientHandle));
+        pStreamInfo->streamCaps.absoluteFragmentTimes = FALSE;
         CHK_STATUS(createKinesisVideoStreamSync(clientHandle, pStreamInfo, &streamHandle));
         persistence = TRUE;
     }

@@ -19,7 +19,7 @@ extern "C" {
 #define DEFAULT_KEY_FRAME_INTERVAL                                              45
 #define DEFAULT_MAX_CONCURRENT_STREAMING_SESSION                                10
 
-#define DEFAULT_RETENTION_PERIOD                                                2 * HUNDREDS_OF_NANOS_IN_AN_HOUR
+#define DEFAULT_RETENTION_PERIOD                                                4320 * HUNDREDS_OF_NANOS_IN_AN_HOUR
 #define DEFAULT_BUFFER_DURATION                                                 120 * HUNDREDS_OF_NANOS_IN_A_SECOND
 #define DEFAULT_STREAM_NAME                                                     "ScaryTestStream"
 
